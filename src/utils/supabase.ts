@@ -29,16 +29,3 @@ export const login = async (pass: string) => {
   return { data, error: null };
 };
 
-export const test = async () => {
-  const x = await fetch(
-    'https://moexapi.vercel.app/options'
-  );
-
-  if (!x.ok) {
-    console.log(x, 'error');
-    return;
-  }
-  console.log(x)
-  const a = await x.text();
-  console.log(a);
-};

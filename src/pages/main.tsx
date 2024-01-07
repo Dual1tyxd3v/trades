@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useCheckAuth } from '../hooks/useCheckAuth';
-import { test } from '../utils/supabase';
 import Loader from '../components/loader';
+import Header from '../components/header';
 
 const Wrapper = styled.div`
   background-color: var(--color-bg);
@@ -15,13 +15,10 @@ export default function Main() {
 
   if (isAuthLoading) return <Loader />;
 
-  function clicker() {
-    test();
-  }
   return (
     <Wrapper>
-      <div>Main page</div>
-      <button onClick={clicker}>Click</button>
+      {/* <div>Main page</div> */}
+      <Header />
     </Wrapper>
   );
 }
