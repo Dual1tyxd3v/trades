@@ -21,12 +21,12 @@ a {
   text-decoration: none;
 }
 
-body {
+body .dark {
   --color-text: #fff;
   --color-bg: #000;
 }
 
-body .dark {
+body {
   --color-text: #000;
   --color-bg: #fff;
 }
@@ -82,3 +82,11 @@ img {
   transform: none;
   background-size: 100% 100%;
 }
+/*  */
+/* Loader */
+@keyframes l21 {
+  100% {
+    background-position: left;
+  }
+}
+/*  */
