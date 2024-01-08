@@ -3,6 +3,7 @@ import Header from '../components/header';
 import { getIsAuth, useAppSelector } from '../store';
 import { useNavigate } from 'react-router-dom';
 import Mode from '../components/mode';
+import { useEffect } from 'react';
 
 const Wrapper = styled.div`
   background-color: var(--color-bg);
@@ -14,7 +15,10 @@ const Wrapper = styled.div`
 export default function Main() {
   const isAuth = useAppSelector(getIsAuth);
   const navigate = useNavigate();
-  !isAuth && navigate('/login');
+
+  useEffect(() => {
+    !isAuth && navigate('/login');
+  }, []);
 
   return (
     <>

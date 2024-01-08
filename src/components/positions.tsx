@@ -9,7 +9,7 @@ type PositionsProps = {
 };
 
 type ButtonProps = {
-  active?: boolean;
+  active?: string;
 };
 
 const Button = styled.button<ButtonProps>`
@@ -48,7 +48,7 @@ const Table = styled.div`
 type CellProps = {
   rows: string;
   colls: string;
-  head?: boolean;
+  head?: string;
   color?: string;
 };
 
@@ -77,12 +77,15 @@ export default function Positions({ data }: PositionsProps) {
 
   return (
     <Container>
-      <Button active={isShow} onClick={() => setIsShow((prev) => !prev)}>
+      <Button
+        active={isShow ? 'true' : undefined}
+        onClick={() => setIsShow((prev) => !prev)}
+      >
         {isShow ? 'Скрыть позиции' : 'Показать позиции'} {`(${total.Date})`}
       </Button>
       {isShow && (
         <Table>
-          <Cell head colls="1 / 2" rows="1 / 3">
+          <Cell head="true" colls="1 / 2" rows="1 / 3">
             &nbsp;
           </Cell>
           <Cell
@@ -92,20 +95,20 @@ export default function Positions({ data }: PositionsProps) {
                 ? 'var(--color-long)'
                 : 'var(--color-short)'
             }
-            head
+            head="true"
             colls="2 / 4"
             rows="1 / 2"
           >
             Физики
           </Cell>
-          <Cell head colls="2 / 3" rows="2 / 3">
+          <Cell head="true" colls="2 / 3" rows="2 / 3">
             Long
           </Cell>
-          <Cell head colls="3 / 4" rows="2 / 3">
+          <Cell head="true" colls="3 / 4" rows="2 / 3">
             Short
           </Cell>
           <Cell
-            head
+            head="true"
             colls="4 / 6"
             rows="1 / 2"
             color={
@@ -117,13 +120,13 @@ export default function Positions({ data }: PositionsProps) {
           >
             Юрики
           </Cell>
-          <Cell head colls="4 / 5" rows="2 / 3">
+          <Cell head="true" colls="4 / 5" rows="2 / 3">
             Long
           </Cell>
-          <Cell head colls="5 / 6" rows="2 / 3">
+          <Cell head="true" colls="5 / 6" rows="2 / 3">
             Short
           </Cell>
-          <Cell head colls="6 / 7" rows="1 / 3">
+          <Cell head="true" colls="6 / 7" rows="1 / 3">
             Итого
           </Cell>
           <PositionRow data={total} label="Открытые позиции" />
