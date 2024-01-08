@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Header from '../components/header';
 import { getIsAuth, useAppSelector } from '../store';
 import { useNavigate } from 'react-router-dom';
+import Mode from '../components/mode';
 
 const Wrapper = styled.div`
   background-color: var(--color-bg);
@@ -16,9 +17,12 @@ export default function Main() {
   !isAuth && navigate('/login');
 
   return (
-    <Wrapper>
-      {/* <div>Main page</div> */}
-      <Header />
-    </Wrapper>
+    <>
+      <Mode />
+      <Wrapper>
+        {/* <div>Main page</div> */}
+        <Header />
+      </Wrapper>
+    </>
   );
 }
