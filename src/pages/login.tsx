@@ -3,8 +3,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../utils/supabase';
 import styled from 'styled-components';
-import { useCheckAuth } from '../hooks/useCheckAuth';
-import Loader from '../components/loader';
+import { getIsAuth, useAppSelector } from '../store';
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -53,10 +52,8 @@ export default function Login() {
   const [pass, setPass] = useState('');
   const [loginError, setLoginError] = useState<null | string>(null);
   const navigate = useNavigate();
-
-  const isAuthLoading = useCheckAuth();
-
-  if (isAuthLoading) return <Loader />;
+  const isAuth = useAppSelector(getIsAuth);
+  isAuth && navigate('/');
 
   function changeHandler(e: ChangeEvent) {
     const value = (e.target as HTMLInputElement).value;

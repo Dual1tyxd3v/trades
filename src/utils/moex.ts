@@ -1,3 +1,5 @@
+import { Options } from '../types';
+
 export const getOptions = async () => {
   const resp = await fetch('https://moexapi.vercel.app/options');
 
@@ -5,7 +7,7 @@ export const getOptions = async () => {
     throw new Error('Cant load NG options');
   }
 
-  const data = await resp.json();
+  const data: Options = await resp.json();
   return data;
 };
 

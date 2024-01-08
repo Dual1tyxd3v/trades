@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { useCheckAuth } from '../hooks/useCheckAuth';
-import Loader from '../components/loader';
 import Header from '../components/header';
+import { getIsAuth, useAppSelector } from '../store';
+import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
   background-color: var(--color-bg);
@@ -11,9 +11,9 @@ const Wrapper = styled.div`
 `;
 
 export default function Main() {
-  const isAuthLoading = useCheckAuth();
-
-  if (isAuthLoading) return <Loader />;
+  const isAuth = useAppSelector(getIsAuth);
+  const navigate = useNavigate();
+  !isAuth && navigate('/login');
 
   return (
     <Wrapper>
