@@ -29,6 +29,7 @@ body .dark {
 body {
   --color-text: #000;
   --color-bg: #fff;
+  --color-cell-bg: #ccc;
 }
 
 img {

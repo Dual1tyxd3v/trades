@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
   background-color: var(--color-bg);
-  margin: 2rem;
+  margin: 4rem 2rem 2rem;
   border: 2px solid var(--color-text);
   border-radius: 5px;
 `;

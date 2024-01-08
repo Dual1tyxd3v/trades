@@ -6,7 +6,7 @@ import { InitState } from '../types';
 const initState: InitState = {
   go: 0,
   step: 0,
-  balance: 0,
+  balance: 1_017_000,
   isAuth: false,
 };
 
@@ -35,3 +35,4 @@ export const useAppSelector: TypedUseSelectorHook<State> = useSelector;
 export const getGO = (state: State) => state.go;
 export const getStep = (state: State) => state.step;
 export const getIsAuth = (state: State) => state.isAuth;
+export const getBalance = (state: State) => state.balance;

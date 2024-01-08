@@ -9,3 +9,8 @@ export type InitState = {
   balance: number;
   isAuth: boolean;
 };
+
+export type HeadRowData = {
+  label: string;
+  data: number | string | null;
+};
