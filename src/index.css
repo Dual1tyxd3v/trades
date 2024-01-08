@@ -1,3 +1,8 @@
+:root {
+  --color-long: green;
+  --color-short: red;
+}
+
 *,
 *::after,
 *::before {

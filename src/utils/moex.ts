@@ -21,3 +21,10 @@ export const getPositions = async () => {
   const data = await resp.json();
   return data;
 };
+
+export const formatPositions = (pos: string) => {
+  const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+  const res = [...pos].filter((char) => digits.includes(char)).join('');
+
+  return +res;
+};

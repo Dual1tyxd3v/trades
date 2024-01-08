@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getOptions, getPositions } from '../utils/moex';
 import {
@@ -9,6 +9,9 @@ import {
   useAppSelector,
 } from '../store';
 import { updateGO, updateStep } from '../store/actions';
+import Loader from './loader';
+import Positions from './positions';
+import { PositionsType } from '../types';
 
 const Head = styled.header`
   display: flex;
@@ -17,6 +20,8 @@ const Head = styled.header`
   padding: 0 1rem;
   flex-wrap: wrap;
   background-color: var(--color-cell-bg);
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--color-text);
 `;
 
 type CellProps = {
@@ -29,29 +34,32 @@ const Cell = styled.p<CellProps>`
   padding: 0.4rem 0;
 `;
 
-/* const Divider = styled.div`
-  width: 1px;
-  height: 2.6rem;
-  background-color: var(--color-text);
-`; */
-
 export default function Header() {
   const dispatch = useAppDispatch();
   const go = useAppSelector(getGO);
   const step = useAppSelector(getStep);
   const balance = useAppSelector(getBalance);
+  const [isLoading, setIsLoading] = useState(false);
+  const [pos, setPos] = useState<null | PositionsType>(null);
 
   useEffect(() => {
     async function loadData() {
+      setIsLoading(true);
       const options = await getOptions();
       const positions = await getPositions();
-      console.log(positions);
+
+      setPos(positions);
       const { step, go } = options;
       dispatch(updateGO(go));
       dispatch(updateStep(step));
+      setIsLoading(false);
     }
     loadData();
   }, [dispatch]);
+
+  if (isLoading) return <Loader />;
+
+  const freeLots = Math.floor(balance / Math.ceil(go));
   return (
     <>
       <Head>
@@ -65,8 +73,9 @@ export default function Header() {
         <Cell>{balance}</Cell>
         {/* <Divider /> */}
         <Cell weight="bold">Свободно лотов</Cell>
-        <Cell>x</Cell>
+        <Cell>{freeLots}</Cell>
       </Head>
+      {pos && <Positions data={pos} />}
     </>
   );
 }
