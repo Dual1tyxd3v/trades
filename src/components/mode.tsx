@@ -9,7 +9,7 @@ import { updateisDark } from '../store/actions';
 const Button = styled.button`
   border: 1px solid var(--color-text);
   border-radius: 4px;
-  position: fixed;
+  position: absolute;
   top: 0.5rem;
   right: 2rem;
   cursor: pointer;
@@ -45,7 +45,7 @@ export default function Mode() {
 
     if (isDarkMode) document.body.classList.add('dark');
 
-    dispatch(updateisDark(isDark));
+    dispatch(updateisDark(isDarkMode));
   }, []);
 
   function clickHandler() {

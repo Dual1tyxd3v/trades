@@ -37,3 +37,8 @@ export const getTrades = async () => {
 
   return data as TradesRows;
 };
+
+export const formatFileName = (path: string) =>
+  {
+    console.log(path.slice(path.lastIndexOf('/')).slice(path.lastIndexOf('\\')))
+  };

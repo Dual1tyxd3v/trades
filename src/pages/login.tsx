@@ -5,6 +5,7 @@ import { login } from '../utils/supabase';
 import styled from 'styled-components';
 import { getIsAuth, useAppDispatch, useAppSelector } from '../store';
 import { updateIsAuth } from '../store/actions';
+import Button from '../components/button';
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -34,7 +35,7 @@ const Field = styled.div`
 
 const Label = styled.label`
   font-size: 2rem;
-  color: var(--color-bg);
+  color: #000;
 `;
 
 const Input = styled.input`
@@ -97,9 +98,9 @@ export default function Login() {
             />
             {loginError && <Error>{loginError}</Error>}
           </Field>
-          <button className="btn" disabled={pass.length > 5 ? false : true}>
+          <Button bg="#fff" disabled={pass.length > 5 ? false : true}>
             Login
-          </button>
+          </Button>
         </form>
       </Container>
     </Wrapper>
