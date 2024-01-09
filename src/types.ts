@@ -8,6 +8,7 @@ export type InitState = {
   step: number;
   balance: number;
   isAuth: boolean;
+  isDark: boolean;
 };
 
 export type HeadRowData = {
@@ -28,3 +29,17 @@ export type Position = {
   PhysicalShort: string;
   Summary: string;
 };
+
+export type TradesRow = {
+  id: number;
+  date: string;
+  price: number;
+  type: string;
+  tp: number | null;
+  sl: number | null;
+  comment: string;
+  img: string;
+  created_at: string;
+};
+
+export type TradesRows = TradesRow[];

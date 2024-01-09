@@ -1,5 +1,5 @@
 import { configureStore, createReducer } from '@reduxjs/toolkit';
-import { updateGO, updateIsAuth, updateStep } from './actions';
+import { updateGO, updateIsAuth, updateStep, updateisDark } from './actions';
 import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux';
 import { InitState } from '../types';
 
@@ -8,6 +8,7 @@ const initState: InitState = {
   step: 0,
   balance: 1_017_000,
   isAuth: false,
+  isDark: false,
 };
 
 const reducer = createReducer(initState, (builder) => {
@@ -20,6 +21,9 @@ const reducer = createReducer(initState, (builder) => {
     })
     .addCase(updateIsAuth, (state, action) => {
       state.isAuth = action.payload;
+    })
+    .addCase(updateisDark, (state, action) => {
+      state.isDark = action.payload;
     });
 });
 
@@ -36,3 +40,4 @@ export const getGO = (state: State) => state.go;
 export const getStep = (state: State) => state.step;
 export const getIsAuth = (state: State) => state.isAuth;
 export const getBalance = (state: State) => state.balance;
+export const getIsDark = (state: State) => state.isDark;

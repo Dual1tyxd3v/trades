@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 import { IoMoon } from 'react-icons/io5';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { IoSunny } from 'react-icons/io5';
+import { useSelector } from 'react-redux';
+import { getIsDark, useAppDispatch } from '../store';
+import { updateisDark } from '../store/actions';
 
 const Button = styled.button`
   border: 1px solid var(--color-text);
@@ -32,28 +35,30 @@ const Button = styled.button`
 `;
 
 export default function Mode() {
-  const [darkMode, setDarkMode] = useState(false);
+  const isDark = useSelector(getIsDark);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const isDark =
+    const isDarkMode =
       JSON.parse(localStorage.getItem('isDark') as string) ||
       document.body.classList.contains('dark');
 
-    if (isDark) document.body.classList.add('dark');
+    if (isDarkMode) document.body.classList.add('dark');
 
-    setDarkMode(isDark);
+    dispatch(updateisDark(isDark));
   }, []);
 
   function clickHandler() {
     document.body.classList.toggle('dark');
-    localStorage.setItem('isDark', JSON.stringify(!darkMode));
-    setDarkMode((prev) => !prev);
+    localStorage.setItem('isDark', JSON.stringify(!isDark));
+
+    dispatch(updateisDark(!isDark));
   }
 
   return (
     <Button onClick={clickHandler}>
-      {!darkMode && <IoMoon />}
-      {darkMode && <IoSunny />}
+      {!isDark && <IoMoon />}
+      {isDark && <IoSunny />}
     </Button>
   );
 }

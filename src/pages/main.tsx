@@ -4,6 +4,7 @@ import { getIsAuth, useAppSelector } from '../store';
 import { useNavigate } from 'react-router-dom';
 import Mode from '../components/mode';
 import { useEffect } from 'react';
+import Trades from '../components/trades';
 
 const Wrapper = styled.div`
   background-color: var(--color-bg);
@@ -24,8 +25,8 @@ export default function Main() {
     <>
       <Mode />
       <Wrapper>
-        {/* <div>Main page</div> */}
         <Header />
+        <Trades />
       </Wrapper>
     </>
   );

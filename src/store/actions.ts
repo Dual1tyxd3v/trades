@@ -14,3 +14,8 @@ export const updateBalance = createAction('updateBalance', (value: number) => ({
 export const updateIsAuth = createAction('updateIsAuth', (value: boolean) => ({
   payload: value,
 }));
+
+export const updateisDark = createAction(
+  'updateIsDark',
+  (value: boolean) => ({ payload: value })
+);

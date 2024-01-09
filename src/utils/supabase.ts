@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { EMAIL } from '../const';
+import { TradesRows } from '../types';
 
 const KEY =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNieXJubW10dmZzamdkanZzZ3h0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDQ2MjMyMTQsImV4cCI6MjAyMDE5OTIxNH0.J4-rxmNjyRjpEYZxzRK4qruFNwrjaEA8-ZTQLlaI62o';
@@ -29,3 +30,10 @@ export const login = async (pass: string) => {
   return { data, error: null };
 };
 
+export const getTrades = async () => {
+  const { data, error } = await supabase.from('trades').select('*');
+
+  if (error) throw new Error('Cant load trades');
+
+  return data as TradesRows;
+};

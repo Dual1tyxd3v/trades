@@ -68,6 +68,7 @@ const Cell = styled.div<CellProps>`
 
 const Container = styled.div`
   text-align: center;
+  margin-bottom: 1rem;
 `;
 
 export default function Positions({ data }: PositionsProps) {

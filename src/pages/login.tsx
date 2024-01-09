@@ -1,9 +1,10 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import { login } from '../utils/supabase';
 import styled from 'styled-components';
-import { getIsAuth, useAppSelector } from '../store';
+import { getIsAuth, useAppDispatch, useAppSelector } from '../store';
+import { updateIsAuth } from '../store/actions';
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -33,13 +34,16 @@ const Field = styled.div`
 
 const Label = styled.label`
   font-size: 2rem;
+  color: var(--color-bg);
 `;
 
 const Input = styled.input`
   padding: 0.4rem 1rem;
   font-size: 1.6rem;
-  border: 2px solid #000;
+  border: 2px solid var(--color-text);
   border-radius: 4px;
+  color: var(--color-text);
+  background-color: var(--color-bg);
 `;
 
 const Error = styled.p`
@@ -53,7 +57,11 @@ export default function Login() {
   const [loginError, setLoginError] = useState<null | string>(null);
   const navigate = useNavigate();
   const isAuth = useAppSelector(getIsAuth);
-  isAuth && navigate('/');
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    isAuth && navigate('/');
+  }, [isAuth, navigate]);
 
   function changeHandler(e: ChangeEvent) {
     const value = (e.target as HTMLInputElement).value;
@@ -71,7 +79,7 @@ export default function Login() {
       return;
     }
 
-    navigate('/');
+    dispatch(updateIsAuth(true));
   }
 
   return (
