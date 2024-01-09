@@ -1,9 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ChangeEvent, DragEvent, useState } from 'react';
-import { TradesRow } from '../types';
+import {
+  ChangeEvent,
+  DragEvent,
+  FormEvent,
+  useCallback,
+  useState,
+} from 'react';
+import { Status, TradesRow } from '../types';
 import styled from 'styled-components';
 import Button from './button';
 import { FaRegFileAlt } from 'react-icons/fa';
+import { createTrade } from '../utils/supabase';
+import { useNavigate } from 'react-router-dom';
+import Modal from './modal';
 // import { formatFileName } from '../utils/supabase';
 
 type RowFormProps = {
@@ -95,6 +104,12 @@ export default function RowForm({ data }: RowFormProps) {
   const [fComment, setFComment] = useState(() => (comment ? comment : ''));
   const [fFile, setFFile] = useState<null | File>(null);
   const [isDragEnter, setIsDragEnter] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showModal, setShowModal] = useState<Status>({
+    message: '',
+    isSuccess: false,
+  });
+  const navigate = useNavigate();
 
   function changeHandler(e: ChangeEvent) {
     const input = e.target as HTMLInputElement | HTMLSelectElement;
@@ -139,110 +154,142 @@ export default function RowForm({ data }: RowFormProps) {
     e.preventDefault();
     setIsDragEnter(isEnter);
   }
-  console.log(isDragEnter);
+
+  const closeModal = useCallback(
+    () => setShowModal({ isSuccess: false, message: '' }),
+    []
+  );
+  const redirect = useCallback(() => navigate('/'), []);
+
+  async function submitHandler(e: FormEvent) {
+    e.preventDefault();
+    if (isNaN(+fTp) || isNaN(+fSl) || isNaN(+fPrice)) return;
+    setIsLoading(true);
+    const resp: Status = await createTrade(
+      {
+        tp: +fTp,
+        sl: +fSl,
+        comment: fComment,
+        img: '',
+        date: fDate,
+        price: +fPrice,
+        id: 0,
+        type: fType as string,
+      },
+      fFile
+    );
+    setIsLoading(false);
+    setShowModal(resp);
+  }
 
   return (
-    <Form>
-      <Field className="field">
-        <Label htmlFor="date">Дата</Label>
-        <Input
-          type="date"
-          name="date"
-          id="date"
-          value={fDate}
-          onChange={changeHandler}
-        />
-      </Field>
-      <Field className="field">
-        <Label htmlFor="price">Цена открытия</Label>
-        <Input
-          type="text"
-          name="price"
-          id="price"
-          value={fPrice}
-          onChange={changeHandler}
-        />
-      </Field>
-      <Field className="field">
-        <Label htmlFor="type">Тип сделки</Label>
-        <select
-          name="type"
-          id="type"
-          value={fType ? fType : ''}
-          onChange={changeHandler}
-        >
-          {!fType && (
-            <option value="" disabled hidden>
-              Выберите тип сделки
-            </option>
-          )}
-          <option value="long">Long</option>
-          <option value="short">Short</option>
-        </select>
-      </Field>
-      <Field className="field">
-        <Label htmlFor="tp">TP</Label>
-        <Input
-          type="text"
-          name="tp"
-          id="tp"
-          value={fTp}
-          onChange={changeHandler}
-        />
-      </Field>
-      <Field className="field">
-        <Label htmlFor="sl">SL</Label>
-        <Input
-          type="text"
-          name="sl"
-          id="sl"
-          value={fSl}
-          onChange={changeHandler}
-        />
-      </Field>
-      <Field className="field">
-        <Label htmlFor="comment">Комментарий</Label>
-        <textarea
-          name="comment"
-          id="comment"
-          value={fComment}
-          onChange={changeHandler}
-        />
-      </Field>
-      <Field>
-        <FileLabel
-          style={
-            isDragEnter
-              ? {
-                  backgroundColor: 'var(--color-bg)',
-                  fontWeight: 'bold',
-                }
-              : {}
-          }
-          htmlFor="file"
-          onDrop={dropHandler}
-          onDragOver={(e) => dragHandler(true, e)}
-          onDragEnter={(e) => dragHandler(true, e)}
-          onDragLeave={(e) => dragHandler(false, e)}
-        >
-          Перетащите или выбирите изображение
-          <FaRegFileAlt />
-          {fFile && <span>{fFile.name}</span>}
-        </FileLabel>
-        <input
-          style={{ display: 'none' }}
-          type="file"
-          name="file"
-          id="file"
-          onChange={changeHandler}
-        />
-        {img && <img src={img} alt="Old image" />}
-      </Field>
-      <Field justify="center">
-        <Button disabled={!+fPrice || !fType} bg="var(--color-cell-bg)">
-          Создать
-        </Button>
-      </Field>
-    </Form>
+    <>
+      <Modal action={redirect} closeModal={closeModal} status={showModal} />
+      <Form onSubmit={submitHandler}>
+        <Field className="field">
+          <Label htmlFor="date">Дата</Label>
+          <Input
+            type="date"
+            name="date"
+            id="date"
+            value={fDate}
+            onChange={changeHandler}
+          />
+        </Field>
+        <Field className="field">
+          <Label htmlFor="price">Цена открытия</Label>
+          <Input
+            type="text"
+            name="price"
+            id="price"
+            value={fPrice}
+            onChange={changeHandler}
+          />
+        </Field>
+        <Field className="field">
+          <Label htmlFor="type">Тип сделки</Label>
+          <select
+            name="type"
+            id="type"
+            value={fType ? fType : ''}
+            onChange={changeHandler}
+          >
+            {!fType && (
+              <option value="" disabled hidden>
+                Выберите тип сделки
+              </option>
+            )}
+            <option value="long">Long</option>
+            <option value="short">Short</option>
+          </select>
+        </Field>
+        <Field className="field">
+          <Label htmlFor="tp">TP</Label>
+          <Input
+            type="text"
+            name="tp"
+            id="tp"
+            value={fTp}
+            onChange={changeHandler}
+          />
+        </Field>
+        <Field className="field">
+          <Label htmlFor="sl">SL</Label>
+          <Input
+            type="text"
+            name="sl"
+            id="sl"
+            value={fSl}
+            onChange={changeHandler}
+          />
+        </Field>
+        <Field className="field">
+          <Label htmlFor="comment">Комментарий</Label>
+          <textarea
+            name="comment"
+            id="comment"
+            value={fComment}
+            onChange={changeHandler}
+          />
+        </Field>
+        <Field>
+          <FileLabel
+            style={
+              isDragEnter
+                ? {
+                    backgroundColor: 'var(--color-bg)',
+                    fontWeight: 'bold',
+                  }
+                : {}
+            }
+            htmlFor="file"
+            onDrop={dropHandler}
+            onDragOver={(e) => dragHandler(true, e)}
+            onDragEnter={(e) => dragHandler(true, e)}
+            onDragLeave={(e) => dragHandler(false, e)}
+          >
+            Перетащите или выбирите изображение
+            <FaRegFileAlt />
+            {fFile && <span>{fFile.name}</span>}
+          </FileLabel>
+          <input
+            style={{ display: 'none' }}
+            type="file"
+            name="file"
+            id="file"
+            onChange={changeHandler}
+          />
+          {img && <img src={img} alt="Old image" />}
+        </Field>
+        <Field justify="center">
+          <Button
+            disabled={!+fPrice || !fType || isLoading}
+            bg="var(--color-cell-bg)"
+          >
+            Создать
+          </Button>
+        </Field>
+      </Form>
+    </>
   );
 }

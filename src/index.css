@@ -31,6 +31,7 @@ body {
   --color-text: #000;
   --color-bg: #fff;
   --color-cell-bg: #ccc;
+  --color-overlay: rgba(0, 0, 0, 0.8);
   color: var(--color-text);
   background-color: var(--color-bg);
 }
@@ -39,6 +40,7 @@ body {
   --color-text: #fff;
   --color-bg: #000;
   --color-cell-bg: #3b3636;
+  --color-overlay: rgba(255, 255, 255, 0.8);
 }
 
 img {

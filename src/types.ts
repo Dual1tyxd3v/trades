@@ -39,7 +39,11 @@ export type TradesRow = {
   sl: number | null;
   comment: string;
   img: string;
-  created_at: string;
 };
 
 export type TradesRows = TradesRow[];
+
+export type Status = {
+  message: string;
+  isSuccess: boolean;
+};
