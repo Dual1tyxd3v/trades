@@ -3,6 +3,7 @@ import Main from './pages/main';
 import Login from './pages/login';
 import { useCheckAuth } from './hooks/useCheckAuth';
 import Loader from './components/loader';
+import NewTrade from './pages/newTrade';
 
 function App() {
   const isAuthLoading = useCheckAuth();
@@ -12,6 +13,7 @@ function App() {
     <Routes>
       <Route element={<Main />} path="/" />
       <Route element={<Login />} path="/login" />
+      <Route element={<NewTrade />} path="/new" />
     </Routes>
   );
 }

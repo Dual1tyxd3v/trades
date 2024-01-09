@@ -3,28 +3,38 @@ import { getIsDark, useAppSelector } from '../store';
 import IconButton from './iconButton';
 import { IoMdRefresh } from 'react-icons/io';
 import styled from 'styled-components';
+import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const List = styled.ul`
   display: flex;
   justify-content: flex-end;
   padding: 0 2rem;
+  margin-bottom: 2rem;
 
   & li:not(:last-child) {
     margin-right: 0.8rem;
   }
 `;
 
-export default function Menu() {
+type MenuProps = {
+  refresh: () => void;
+};
+
+export default function Menu({ refresh }: MenuProps) {
   const isDark = useAppSelector(getIsDark);
+  const navigate = useNavigate();
+
+  const newTrade = useCallback(() => navigate('/new'), [navigate]);
   return (
     <List>
       <li>
-        <IconButton>
+        <IconButton action={refresh}>
           <IoMdRefresh color={isDark ? '#fff' : '#000'} />
         </IconButton>
       </li>
       <li>
-        <IconButton>
+        <IconButton action={newTrade}>
           <FaPlus color={isDark ? '#fff' : '#000'} />
         </IconButton>
       </li>

@@ -29,8 +29,9 @@ const Button = styled.button`
 
 type IconButtonProps = {
   children: ReactNode;
+  action: () => void;
 };
 
-export default function IconButton({ children }: IconButtonProps) {
-  return <Button>{children}</Button>;
+export default function IconButton({ children, action }: IconButtonProps) {
+  return <Button onClick={action}>{children}</Button>;
 }
