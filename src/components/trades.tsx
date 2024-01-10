@@ -6,6 +6,7 @@ import Empty from './empty';
 import Menu from './menu';
 import Trade from './trade';
 import styled from 'styled-components';
+import Stats from './stats';
 
 const Wrapper = styled.div`
   background-color: var(--color-cell-bg);
@@ -22,6 +23,12 @@ const Header = styled.div`
   padding: 0 4rem 1rem;
   margin-bottom: 2rem;
   border-bottom: 2px solid var(--color-text);
+`;
+
+const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export default function Trades() {
@@ -46,7 +53,10 @@ export default function Trades() {
   return (
     <div>
       {!trades?.length && <Empty />}
-      <Menu refresh={refreshData} />
+      <Container>
+        {trades && <Stats trades={trades} />}
+        <Menu refresh={refreshData} />
+      </Container>
       {trades?.length ? (
         <Wrapper>
           <Header>

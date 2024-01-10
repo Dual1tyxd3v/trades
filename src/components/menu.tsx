@@ -10,7 +10,7 @@ const List = styled.ul`
   display: flex;
   justify-content: flex-end;
   padding: 0 2rem;
-  margin-bottom: 2rem;
+  margin: 0 0 2rem auto;
 
   & li:not(:last-child) {
     margin-right: 0.8rem;
