@@ -15,7 +15,11 @@ export const updateIsAuth = createAction('updateIsAuth', (value: boolean) => ({
   payload: value,
 }));
 
-export const updateisDark = createAction(
-  'updateIsDark',
-  (value: boolean) => ({ payload: value })
+export const updateisDark = createAction('updateIsDark', (value: boolean) => ({
+  payload: value,
+}));
+
+export const updateActiveId = createAction(
+  'updateActiveId',
+  (value: number) => ({ payload: value })
 );

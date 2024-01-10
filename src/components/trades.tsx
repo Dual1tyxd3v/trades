@@ -16,7 +16,7 @@ const Wrapper = styled.div`
 
 const Header = styled.div`
   display: grid;
-  grid-template-columns: repeat(6, 13%) 22%;
+  grid-template-columns: repeat(7, 11%) 3px 1fr;
   font-weight: bold;
   font-size: 2rem;
   padding: 0 4rem 1rem;
@@ -52,6 +52,7 @@ export default function Trades() {
           <Header>
             <p>Дата</p>
             <p>Цена</p>
+            <p>Лотов</p>
             <p>TP</p>
             <p>SL</p>
             <p>Тип сделки</p>
@@ -61,7 +62,7 @@ export default function Trades() {
           {trades &&
             trades.map((trade, i) => {
               const key = `${i}_${trade.id}`;
-              return <Trade data={trade} key={key} />;
+              return <Trade refresh={refreshData} data={trade} key={key} />;
             })}
         </Wrapper>
       ) : null}

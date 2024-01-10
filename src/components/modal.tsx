@@ -1,10 +1,9 @@
 import styled from 'styled-components';
-import { Status } from '../types';
-import Button from './button';
+import { ReactNode } from 'react';
 
 const Wrapper = styled.div`
   position: fixed;
-  z-index: 2;
+  z-index: 20;
   top: 0;
   left: 0;
   width: 100vw;
@@ -23,36 +22,14 @@ const Modal = styled.div`
   text-align: center;
 `;
 
-const Text = styled.p`
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 3rem;
-`;
-
 type ModalProps = {
-  status: Status;
-  closeModal: () => void;
-  action: () => void;
+  children: ReactNode;
 };
 
-export default function modal({ status, closeModal, action }: ModalProps) {
-  const { message, isSuccess } = status;
-  if (!message) return null;
-
-  function clickHandler() {
-    closeModal();
-    if (!isSuccess) return;
-    action();
-  }
-
+export default function modal({ children }: ModalProps) {
   return (
     <Wrapper>
-      <Modal>
-        <Text>{message}</Text>
-        <Button bg="var(--color-bg)" onClick={clickHandler}>
-          {isSuccess ? 'OK': 'Пробовать еще'}
-        </Button>
-      </Modal>
+      <Modal>{children}</Modal>
     </Wrapper>
   );
 }

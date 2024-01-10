@@ -9,6 +9,7 @@ export type InitState = {
   balance: number;
   isAuth: boolean;
   isDark: boolean;
+  activeId: number;
 };
 
 export type HeadRowData = {
@@ -40,6 +41,7 @@ export type TradesRow = {
   comment: string;
   img: string;
   move: number;
+  lots: number;
 };
 
 export type TradesRows = TradesRow[];

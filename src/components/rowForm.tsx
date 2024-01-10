@@ -13,11 +13,16 @@ import { createTrade } from '../utils/supabase';
 import { useNavigate } from 'react-router-dom';
 import Modal from './modal';
 import { getMove } from '../utils/moex';
-// import { formatFileName } from '../utils/supabase';
 
 type RowFormProps = {
   data?: TradesRow;
 };
+
+const Text = styled.p`
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 3rem;
+`;
 
 const Form = styled.form`
   width: max-content;
@@ -93,12 +98,13 @@ const FileLabel = styled.label`
 const Input = styled.input``;
 
 export default function RowForm({ data }: RowFormProps) {
-  const { price, sl, tp, type, comment, img, date } = data || {};
+  const { price, sl, tp, type, comment, img, date, lots } = data || {};
   const [fDate, setFDate] = useState(() =>
     date ? date.toString() : new Date().toISOString().slice(0, 10)
   );
   const [fType, setFType] = useState<null | string>(() => (type ? type : null));
   const [fPrice, setFPrice] = useState(() => (price ? price.toString() : '0'));
+  const [fLots, setFLots] = useState(() => (lots ? lots.toString() : '0'));
   const [fTp, setTp] = useState(() => (tp ? tp.toString() : '0'));
   const [fSl, setSl] = useState(() => (sl ? sl.toString() : '0'));
   const [fComment, setFComment] = useState(() => (comment ? comment : ''));
@@ -120,6 +126,9 @@ export default function RowForm({ data }: RowFormProps) {
         break;
       case 'price':
         setFPrice(input.value);
+        break;
+      case 'lots':
+        setFLots(input.value);
         break;
       case 'type':
         setFType(input.value);
@@ -159,7 +168,6 @@ export default function RowForm({ data }: RowFormProps) {
     () => setShowModal({ isSuccess: false, message: '' }),
     []
   );
-  const redirect = useCallback(() => navigate('/'), [navigate]);
 
   async function submitHandler(e: FormEvent) {
     e.preventDefault();
@@ -176,6 +184,7 @@ export default function RowForm({ data }: RowFormProps) {
         id: 0,
         type: fType as string,
         move: getMove(+fPrice, +fTp, +fSl),
+        lots: +fLots,
       },
       fFile
     );
@@ -183,9 +192,21 @@ export default function RowForm({ data }: RowFormProps) {
     setShowModal(resp);
   }
 
+  function clickHandler() {
+    closeModal();
+    if (!showModal.isSuccess) return;
+    navigate('/');
+  }
   return (
     <>
-      <Modal action={redirect} closeModal={closeModal} status={showModal} />
+      {showModal.message && (
+        <Modal>
+          <Text>{showModal.message}</Text>
+          <Button bg="var(--color-bg)" onClick={clickHandler}>
+            {showModal.isSuccess ? 'OK' : 'Пробовать еще'}
+          </Button>
+        </Modal>
+      )}
       <Form onSubmit={submitHandler}>
         <Field className="field">
           <Label htmlFor="date">Дата</Label>
@@ -204,6 +225,16 @@ export default function RowForm({ data }: RowFormProps) {
             name="price"
             id="price"
             value={fPrice}
+            onChange={changeHandler}
+          />
+        </Field>
+        <Field className="field">
+          <Label htmlFor="lots">Количество лотов</Label>
+          <Input
+            type="text"
+            name="lots"
+            id="lots"
+            value={fLots}
             onChange={changeHandler}
           />
         </Field>
@@ -287,7 +318,7 @@ export default function RowForm({ data }: RowFormProps) {
             Назад
           </Button>
           <Button
-            disabled={!+fPrice || !fType || isLoading}
+            disabled={!+fPrice || !fType || !+fLots || isLoading}
             bg="var(--color-cell-bg)"
           >
             Создать
