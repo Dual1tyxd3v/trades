@@ -77,8 +77,19 @@ export const createTrade = async (data: TradesRow, file?: File | null) => {
   return { message: 'Сделка успешно записана', isSuccess: true };
 };
 
-export const deleteTrade = async (id: number) => {
+export const deleteTrade = async (id: number, img: string) => {
   const { error } = await supabase.from('trades').delete().eq('id', id);
+
+  if (error) return false;
+  if (img) {
+    return await deleteImage(img);
+  }
+  return true;
+};
+
+const deleteImage = async (url: string) => {
+  const fileName = url.slice(url.lastIndexOf('/') + 1);
+  const { error } = await supabase.storage.from('imgs').remove([fileName]);
 
   if (error) return false;
 

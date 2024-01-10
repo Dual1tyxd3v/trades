@@ -64,9 +64,10 @@ const Text = styled.p`
 type TradeMenuProps = {
   id: number;
   refresh: () => void;
+  img: string;
 };
 
-export default function TradeMenu({ id, refresh }: TradeMenuProps) {
+export default function TradeMenu({ id, refresh, img }: TradeMenuProps) {
   const activeId = useAppSelector(getActiveId);
   const dispatch = useAppDispatch();
   const [showModal, setShowModal] = useState(false);
@@ -79,7 +80,7 @@ export default function TradeMenu({ id, refresh }: TradeMenuProps) {
 
   async function acceptHandler() {
     setIsLoading(true);
-    const resp = await deleteTrade(id);
+    const resp = await deleteTrade(id, img);
     setIsLoading(false);
     if (resp) {
       dispatch(updateActiveId(0));

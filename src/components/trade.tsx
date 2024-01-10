@@ -77,7 +77,7 @@ export default function Trade({ data, refresh }: TradeProps) {
       <Cell>{type}</Cell>
       <Cell>{move}</Cell>
       <Cell>{comment ? comment : '-'}</Cell>
-      <TradeMenu refresh={refresh} id={id} />
+      <TradeMenu refresh={refresh} id={id} img={img} />
       {showImage && img && <Image src={img} />}
     </Wrapper>
   );
