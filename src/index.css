@@ -1,6 +1,7 @@
 :root {
-  --color-long: green;
-  --color-short: red;
+  --color-long: rgb(20, 155, 20);
+  --color-short: rgb(231, 58, 58);
+  --color-neutral: rgb(228, 228, 20);
 }
 
 *,

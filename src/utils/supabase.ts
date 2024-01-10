@@ -52,7 +52,7 @@ export const createTrade = async (data: TradesRow, file?: File | null) => {
     if (!resp)
       return { message: 'Не удается загрузить изображение', isSuccess: false };
   }
-  const { tp, sl, comment, date, price, type } = data;
+  const { tp, sl, comment, date, price, type, move } = data;
 
   const { error: creteError } = await supabase
     .from('trades')
@@ -65,6 +65,7 @@ export const createTrade = async (data: TradesRow, file?: File | null) => {
         price,
         type,
         img: file ? `${SUPABASE_STORAGE}${file.name}` : '',
+        move
       },
     ])
     .select();

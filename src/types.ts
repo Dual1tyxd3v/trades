@@ -39,6 +39,7 @@ export type TradesRow = {
   sl: number | null;
   comment: string;
   img: string;
+  move: number;
 };
 
 export type TradesRows = TradesRow[];

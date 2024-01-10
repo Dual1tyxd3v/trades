@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   ChangeEvent,
   DragEvent,
@@ -13,6 +12,7 @@ import { FaRegFileAlt } from 'react-icons/fa';
 import { createTrade } from '../utils/supabase';
 import { useNavigate } from 'react-router-dom';
 import Modal from './modal';
+import { getMove } from '../utils/moex';
 // import { formatFileName } from '../utils/supabase';
 
 type RowFormProps = {
@@ -53,7 +53,7 @@ const Field = styled.div<FieldProps>`
   align-items: center;
   justify-content: ${(props) =>
     props.justify ? props.justify : 'space-between'};
-
+  gap: 2rem;
   &:not(:last-child) {
     margin-bottom: 1rem;
   }
@@ -159,7 +159,7 @@ export default function RowForm({ data }: RowFormProps) {
     () => setShowModal({ isSuccess: false, message: '' }),
     []
   );
-  const redirect = useCallback(() => navigate('/'), []);
+  const redirect = useCallback(() => navigate('/'), [navigate]);
 
   async function submitHandler(e: FormEvent) {
     e.preventDefault();
@@ -175,6 +175,7 @@ export default function RowForm({ data }: RowFormProps) {
         price: +fPrice,
         id: 0,
         type: fType as string,
+        move: getMove(+fPrice, +fTp, +fSl),
       },
       fFile
     );
@@ -282,6 +283,9 @@ export default function RowForm({ data }: RowFormProps) {
           {img && <img src={img} alt="Old image" />}
         </Field>
         <Field justify="center">
+          <Button bg="var(--color-cell-bg)" onClick={() => navigate('/')}>
+            Назад
+          </Button>
           <Button
             disabled={!+fPrice || !fType || isLoading}
             bg="var(--color-cell-bg)"
