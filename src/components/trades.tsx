@@ -23,12 +23,23 @@ const Header = styled.div`
   padding: 0 4rem 1rem;
   margin-bottom: 2rem;
   border-bottom: 2px solid var(--color-text);
+
+  @media (max-width: 500px) {
+    grid-template-columns: repeat(6, max-content) 3px 1fr;
+    grid-column-gap: 1rem;
+  }
 `;
 
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+const Additional = styled.p`
+  @media (max-width: 500px) {
+    display: none;
+  }
 `;
 
 export default function Trades() {
@@ -48,7 +59,7 @@ export default function Trades() {
   }, [refresh]);
 
   const refreshData = useCallback(() => setRefresh((prev) => !prev), []);
-  
+
   if (isLoading) return <Loader />;
   return (
     <div>
@@ -67,7 +78,7 @@ export default function Trades() {
             <p>SL</p>
             <p>Тип сделки</p>
             <p>Пунктов</p>
-            <p>Комментарий</p>
+            <Additional>Комментарий</Additional>
           </Header>
           {trades &&
             trades.map((trade, i) => {

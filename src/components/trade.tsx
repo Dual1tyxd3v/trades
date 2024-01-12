@@ -12,7 +12,7 @@ type WrapperProps = {
 
 const Wrapper = styled.div<WrapperProps>`
   display: grid;
-  grid-template-columns: repeat(7, 11%) 1fr 20px;
+  grid-template-columns: repeat(7, 11%) 1fr 2rem;
   align-items: center;
   font-weight: bold;
   background-color: ${(props) => props.color};
@@ -26,6 +26,12 @@ const Wrapper = styled.div<WrapperProps>`
 
   &:not(:last-child) {
     margin-bottom: 1rem;
+  }
+
+  @media (max-width: 500px) {
+    grid-template-columns: repeat(6, 11%) 1fr 2rem;
+    grid-column-gap: 1rem;
+    justify-items: center;
   }
 `;
 
@@ -44,8 +50,16 @@ const Overlay = styled.div<OverlayProps>`
   background-color: var(--color-overlay);
 `;
 
-const Cell = styled.p`
+type CellProps = {
+  additional?: string;
+};
+
+const Cell = styled.p<CellProps>`
   font-size: 1.6rem;
+  /* ${(props) => (props.additional ? 'grid-row: 2 / 3' : '')} */
+  @media (max-width: 500px) {
+    ${(props) => (props.additional ? 'grid-row: 2 / 3; grid-column: 1 / -1' : '')}
+  }
 `;
 
 const Image = styled.img`
@@ -78,11 +92,19 @@ const DetailsContainer = styled.div`
   padding: 2rem 3rem;
   display: flex;
   gap: 2rem;
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+  }
 `;
 
 const DetailsImage = styled.img`
   max-width: 70%;
   object-fit: contain;
+
+  @media (max-width: 500px) {
+    max-width: 100%;
+  }
 `;
 
 const DetailsDescription = styled.div`
@@ -137,11 +159,11 @@ export default function Trade({ data, refresh }: TradeProps) {
         <Cell>{date}</Cell>
         <Cell>{price.toFixed(3)}</Cell>
         <Cell>{lots}</Cell>
-        <Cell>{tp?.toFixed(3)}</Cell>
-        <Cell>{sl?.toFixed(3) || 0}</Cell>
+        <Cell>{tp ? tp.toFixed(3) : 0}</Cell>
+        <Cell>{sl ? sl.toFixed(3) : 0}</Cell>
         <Cell>{type.toUpperCase()}</Cell>
         <Cell>{move}</Cell>
-        <Cell>{comment ? comment : '-'}</Cell>
+        <Cell additional="yes">{comment ? comment : '-'}</Cell>
         <TradeMenu refresh={refresh} id={id} img={img} />
         {showImage && img && <Image src={img} onClick={clickHandler} />}
       </Wrapper>
