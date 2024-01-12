@@ -8,6 +8,12 @@ const List = styled.ul`
 `;
 const Li = styled.li`
   font-size: 1.6rem;
+
+  @media (max-width: 500px) {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
 `;
 
 export default function Stats({ trades }: { trades: TradesRows }) {

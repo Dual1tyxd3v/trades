@@ -46,6 +46,8 @@ const Input = styled.input`
   background-color: var(--color-bg);
   padding: 0 0.5rem;
   outline: none;
+  border: none;
+  outline: none;
 
   @media (max-width: 500px) {
     width: 40%;

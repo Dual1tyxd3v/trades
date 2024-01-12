@@ -25,6 +25,12 @@ const Button = styled.button`
   &:hover {
     transform: scale(1.1);
   }
+
+  @media (max-width: 500px) {
+    width: 3rem;
+    height: 3rem;
+    border: 1px solid var(--color-text);
+  }
 `;
 
 type IconButtonProps = {
