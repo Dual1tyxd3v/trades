@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import styled from 'styled-components';
 import { TradesRow } from '../types';
 import { getTradeColor } from '../utils/moex';
 import { MouseEvent, useState } from 'react';
 import TradeMenu from './tradeMenu';
 import { getActiveId, useAppSelector } from '../store';
-import Modal from './modal';
 import Button from './button';
 
 type WrapperProps = {
