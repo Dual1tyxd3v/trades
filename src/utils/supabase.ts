@@ -77,6 +77,44 @@ export const createTrade = async (data: TradesRow, file?: File | null) => {
   return { message: 'Сделка успешно записана', isSuccess: true };
 };
 
+export const updateTrade = async (trade: TradesRow, file?: File | null) => {
+  const { img, id, price, sl, tp, comment, type, move, date, lots } = trade;
+  if (file) {
+    if (img) {
+      const respDeleteImg = await deleteImage(img);
+      if (!respDeleteImg)
+        return {
+          message: 'Не удалось удалить предыдущее изображение',
+          isSuccess: false,
+        };
+    }
+
+    const respUploadImg = await uploadIMG(file);
+    if (!respUploadImg)
+      return { message: 'Не удается загрузить изображение', isSuccess: false };
+  }
+
+  const { error } = await supabase
+    .from('trades')
+    .update({
+      tp,
+      sl,
+      comment,
+      date,
+      price,
+      type,
+      img: file ? `${SUPABASE_STORAGE}${file.name}` : img,
+      move,
+      lots,
+    })
+    .eq('id', id)
+    .select();
+
+  if (error) return { message: 'Не удалось обновить запись', isSuccess: false };
+
+  return { message: 'Данные успешно обновлены', isSuccess: true };
+};
+
 export const deleteTrade = async (id: number, img: string) => {
   const { error } = await supabase.from('trades').delete().eq('id', id);
 

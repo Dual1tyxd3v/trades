@@ -27,7 +27,6 @@ export default function Edit() {
   }, []);
 
   if (isLoading) return <Loader />;
-  // const { date, price } = trade as TradesRow;
 
   return (
     <>

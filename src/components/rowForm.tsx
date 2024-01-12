@@ -9,7 +9,7 @@ import { Status, TradesRow } from '../types';
 import styled from 'styled-components';
 import Button from './button';
 import { FaRegFileAlt } from 'react-icons/fa';
-import { createTrade } from '../utils/supabase';
+import { createTrade, updateTrade } from '../utils/supabase';
 import { useNavigate } from 'react-router-dom';
 import Modal from './modal';
 import { getMove } from '../utils/moex';
@@ -47,16 +47,23 @@ const Form = styled.form`
 
 type FieldProps = {
   justify?: string;
+  direction?: string;
 };
 
 const Field = styled.div<FieldProps>`
   display: flex;
-  align-items: center;
+  align-items: center; 
+  flex-direction: ${(props) => (props.direction ? props.direction : 'row')};
   justify-content: ${(props) =>
     props.justify ? props.justify : 'space-between'};
   gap: 2rem;
+
   &:not(:last-child) {
     margin-bottom: 1rem;
+  }
+
+  & img {
+    max-width: 50rem;
   }
 `;
 
@@ -98,7 +105,7 @@ type RowFormProps = {
 };
 
 export default function RowForm({ data }: RowFormProps) {
-  const { price, sl, tp, type, comment, img, date, lots } = data || {};
+  const { price, sl, tp, type, comment, img, date, lots, id } = data || {};
   const [fDate, setFDate] = useState(() =>
     date ? date.toString() : new Date().toISOString().slice(0, 10)
   );
@@ -173,21 +180,40 @@ export default function RowForm({ data }: RowFormProps) {
     e.preventDefault();
     if (isNaN(+fTp) || isNaN(+fSl) || isNaN(+fPrice)) return;
     setIsLoading(true);
-    const resp: Status = await createTrade(
-      {
-        tp: +fTp,
-        sl: +fSl,
-        comment: fComment,
-        img: '',
-        date: fDate,
-        price: +fPrice,
-        id: 0,
-        type: fType as string,
-        move: getMove(+fPrice, +fTp, +fSl),
-        lots: +fLots,
-      },
-      fFile
-    );
+    let resp: null | Status = null;
+    if (!data) {
+      resp = await createTrade(
+        {
+          tp: +fTp,
+          sl: +fSl,
+          comment: fComment,
+          img: '',
+          date: fDate,
+          price: +fPrice,
+          id: 0,
+          type: fType as string,
+          move: getMove(+fPrice, +fTp, +fSl),
+          lots: +fLots,
+        },
+        fFile
+      );
+    } else {
+      resp = await updateTrade(
+        {
+          tp: +fTp,
+          sl: +fSl,
+          comment: fComment,
+          img: img ? img : '',
+          date: fDate,
+          price: +fPrice,
+          id: id as number,
+          type: fType as string,
+          move: getMove(+fPrice, +fTp, +fSl),
+          lots: +fLots,
+        },
+        fFile
+      );
+    }
     setIsLoading(false);
     setShowModal(resp);
   }
@@ -284,7 +310,7 @@ export default function RowForm({ data }: RowFormProps) {
             onChange={changeHandler}
           />
         </Field>
-        <Field>
+        <Field direction="column">
           <FileLabel
             style={
               isDragEnter
@@ -311,7 +337,7 @@ export default function RowForm({ data }: RowFormProps) {
             id="file"
             onChange={changeHandler}
           />
-          {img && <img src={img} alt="Old image" />}
+          {img && !fFile && <img src={img} alt="Old image" />}
         </Field>
         <Field justify="center">
           <Button bg="var(--color-cell-bg)" onClick={() => navigate('/')}>
