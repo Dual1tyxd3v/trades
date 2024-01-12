@@ -74,7 +74,7 @@ export default function Trade({ data, refresh }: TradeProps) {
       <Cell>{lots}</Cell>
       <Cell>{tp?.toFixed(3)}</Cell>
       <Cell>{sl?.toFixed(3) || 0}</Cell>
-      <Cell>{type}</Cell>
+      <Cell>{type.toUpperCase()}</Cell>
       <Cell>{move}</Cell>
       <Cell>{comment ? comment : '-'}</Cell>
       <TradeMenu refresh={refresh} id={id} img={img} />

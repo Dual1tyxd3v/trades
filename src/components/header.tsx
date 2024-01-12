@@ -1,13 +1,7 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getOptions, getPositions } from '../utils/moex';
-import {
-  getBalance,
-  getGO,
-  getStep,
-  useAppDispatch,
-  useAppSelector,
-} from '../store';
+import { getGO, getStep, useAppDispatch, useAppSelector } from '../store';
 import { updateGO, updateStep } from '../store/actions';
 import Loader from './loader';
 import Positions from './positions';
@@ -34,11 +28,22 @@ const Cell = styled.p<CellProps>`
   padding: 0.4rem 0;
 `;
 
+const Input = styled.input`
+  height: 2.5rem;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  padding: 0 0.5rem;
+  outline: none;
+`;
+
 export default function Header() {
   const dispatch = useAppDispatch();
   const go = useAppSelector(getGO);
   const step = useAppSelector(getStep);
-  const balance = useAppSelector(getBalance);
+  const [balance, setBalance] = useState(() => {
+    const savedBalance = localStorage.getItem('balance');
+    return savedBalance ? +JSON.parse(savedBalance) : 0;
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [pos, setPos] = useState<null | PositionsType>(null);
 
@@ -59,6 +64,14 @@ export default function Header() {
 
   if (isLoading) return <Loader />;
 
+  function changeBalance(e: ChangeEvent) {
+    const input = e.target as HTMLInputElement;
+    if (isNaN(+input.value)) return;
+
+    setBalance(+input.value);
+    localStorage.setItem('balance', input.value);
+  }
+
   const freeLots = Math.floor(balance / Math.ceil(go));
   return (
     <>
@@ -70,7 +83,7 @@ export default function Header() {
         <Cell>{step}</Cell>
         {/* <Divider /> */}
         <Cell weight="bold">Баланс</Cell>
-        <Cell>{balance}</Cell>
+        <Input type="text" value={balance} onChange={changeBalance} />
         {/* <Divider /> */}
         <Cell weight="bold">Свободно лотов</Cell>
         <Cell>{freeLots}</Cell>

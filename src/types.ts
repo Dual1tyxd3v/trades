@@ -6,7 +6,6 @@ export type Options = {
 export type InitState = {
   go: number;
   step: number;
-  balance: number;
   isAuth: boolean;
   isDark: boolean;
   activeId: number;

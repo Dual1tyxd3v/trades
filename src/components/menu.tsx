@@ -29,12 +29,12 @@ export default function Menu({ refresh }: MenuProps) {
   return (
     <List>
       <li>
-        <IconButton action={refresh}>
+        <IconButton title='Обновить' action={refresh}>
           <IoMdRefresh color={isDark ? '#fff' : '#000'} />
         </IconButton>
       </li>
       <li>
-        <IconButton action={newTrade}>
+        <IconButton title='Добавить' action={newTrade}>
           <FaPlus color={isDark ? '#fff' : '#000'} />
         </IconButton>
       </li>
