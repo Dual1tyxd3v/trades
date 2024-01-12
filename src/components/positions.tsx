@@ -16,7 +16,7 @@ const Button = styled.button<ButtonProps>`
   display: block;
   margin: 0 auto;
   background-color: var(--color-cell-bg);
-  width: 30rem;
+  width: 34rem;
   border: 2px solid var(--color-text);
   border-radius: 5px;
   padding: 0.5rem 0;
@@ -43,6 +43,10 @@ const Table = styled.div`
   border: 2px solid var(--color-text);
   border-radius: 5px;
   font-size: 1.6rem;
+
+  @media (max-width: 500px) {
+    font-size: 1.4rem;
+  }
 `;
 
 type CellProps = {

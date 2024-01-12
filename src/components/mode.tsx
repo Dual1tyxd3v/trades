@@ -32,6 +32,16 @@ const Button = styled.button`
       transform: rotate(359deg);
     }
   }
+
+  @media (max-width: 500px) {
+    width: 3rem;
+    height: 3rem;
+
+    & svg {
+      width: 2.6rem;
+      height: 2.6rem;
+    }
+  }
 `;
 
 export default function Mode() {
