@@ -16,6 +16,11 @@ const Head = styled.header`
   background-color: var(--color-cell-bg);
   margin-bottom: 1rem;
   border-bottom: 2px solid var(--color-text);
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+    gap: 1rem;
+  }
 `;
 
 type CellProps = {
@@ -26,6 +31,12 @@ const Cell = styled.p<CellProps>`
   font-size: 1.6rem;
   font-weight: ${(props) => (props.weight ? props.weight : 'normal')};
   padding: 0.4rem 0;
+
+  @media (max-width: 500px) {
+    &:nth-child(even) {
+      justify-self: end;
+    }
+  }
 `;
 
 const Input = styled.input`
@@ -34,7 +45,20 @@ const Input = styled.input`
   background-color: var(--color-bg);
   padding: 0 0.5rem;
   outline: none;
+  @media (max-width: 500px) {
+    width: 70%;
+  }
 `;
+
+const CellBlock = styled.div`
+  display: flex;
+  gap: 5rem;
+
+  @media (max-width: 500px) {
+    width: 100%;
+    justify-content: space-between;
+  }
+`
 
 export default function Header() {
   const dispatch = useAppDispatch();
@@ -76,17 +100,22 @@ export default function Header() {
   return (
     <>
       <Head>
-        <Cell weight="bold">Гарантийное обеспечение</Cell>
-        <Cell>{go}</Cell>
-        {/* <Divider /> */}
-        <Cell weight="bold">Шаг цены</Cell>
-        <Cell>{step}</Cell>
-        {/* <Divider /> */}
-        <Cell weight="bold">Баланс</Cell>
-        <Input type="text" value={balance} onChange={changeBalance} />
-        {/* <Divider /> */}
-        <Cell weight="bold">Свободно лотов</Cell>
-        <Cell>{freeLots}</Cell>
+        <CellBlock>
+          <Cell weight="bold">Гарантийное обеспечение</Cell>
+          <Cell>{go}</Cell>
+        </CellBlock>
+        <CellBlock>
+          <Cell weight="bold">Шаг цены</Cell>
+          <Cell>{step}</Cell>
+        </CellBlock>
+        <CellBlock>
+          <Cell weight="bold">Баланс</Cell>
+          <Input type="text" value={balance} onChange={changeBalance} />
+        </CellBlock>
+        <CellBlock>
+          <Cell weight="bold">Свободно лотов</Cell>
+          <Cell>{freeLots}</Cell>
+        </CellBlock>
       </Head>
       {pos && <Positions data={pos} />}
     </>

@@ -20,6 +20,12 @@ html {
   font-size: 62.5%;
 }
 
+@media (max-width: 900px) {
+  html {
+    font-size: 37.5%;
+  }
+}
+
 ul {
   list-style: none;
 }
