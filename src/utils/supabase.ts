@@ -96,6 +96,17 @@ const deleteImage = async (url: string) => {
   return true;
 };
 
+export const getTrade = async (id: string) => {
+  const { data, error } = await supabase
+    .from('trades')
+    .select('*')
+    .eq('id', id);
+
+  if (error) throw new Error(`Cant load trade - ${id}`);
+
+  return data[0] as TradesRow;
+};
+
 export const formatFileName = (path: string) => {
   console.log(path.slice(path.lastIndexOf('/')).slice(path.lastIndexOf('\\')));
 };

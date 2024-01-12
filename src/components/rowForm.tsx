@@ -14,10 +14,6 @@ import { useNavigate } from 'react-router-dom';
 import Modal from './modal';
 import { getMove } from '../utils/moex';
 
-type RowFormProps = {
-  data?: TradesRow;
-};
-
 const Text = styled.p`
   font-size: 2rem;
   font-weight: bold;
@@ -96,6 +92,10 @@ const FileLabel = styled.label`
 `;
 
 const Input = styled.input``;
+
+type RowFormProps = {
+  data?: TradesRow;
+};
 
 export default function RowForm({ data }: RowFormProps) {
   const { price, sl, tp, type, comment, img, date, lots } = data || {};
@@ -321,7 +321,7 @@ export default function RowForm({ data }: RowFormProps) {
             disabled={!+fPrice || !fType || !+fLots || isLoading}
             bg="var(--color-cell-bg)"
           >
-            Создать
+            {data ? 'Обновить' : 'Создать'}
           </Button>
         </Field>
       </Form>

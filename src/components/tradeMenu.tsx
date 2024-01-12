@@ -8,6 +8,7 @@ import { RiDeleteBin6Line } from 'react-icons/ri';
 import Modal from './modal';
 import Button from './button';
 import { deleteTrade } from '../utils/supabase';
+import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
   position: relative;
@@ -72,6 +73,7 @@ export default function TradeMenu({ id, refresh, img }: TradeMenuProps) {
   const dispatch = useAppDispatch();
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   function clickHandler(e: MouseEvent) {
     e.stopPropagation();
@@ -114,7 +116,12 @@ export default function TradeMenu({ id, refresh, img }: TradeMenuProps) {
         <HiDotsVertical size="2em" onClick={clickHandler} />
         {activeId === id && (
           <Menu>
-            <MenuButton>
+            <MenuButton
+              onClick={() => {
+                dispatch(updateActiveId(0));
+                navigate(`/edit/${id}`);
+              }}
+            >
               Редактировать
               <BsPencilFill />
             </MenuButton>
