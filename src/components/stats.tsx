@@ -13,6 +13,7 @@ const Li = styled.li`
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    font-size: 2rem;
   }
 `;
 
