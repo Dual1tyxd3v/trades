@@ -48,7 +48,7 @@ export default function Trades() {
   }, [refresh]);
 
   const refreshData = useCallback(() => setRefresh((prev) => !prev), []);
-  console.log(trades);
+  
   if (isLoading) return <Loader />;
   return (
     <div>

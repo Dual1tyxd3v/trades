@@ -6,12 +6,12 @@ import {
   useState,
 } from 'react';
 import { Status, TradesRow } from '../types';
-import styled from 'styled-components';
 import Button from './button';
 import { FaRegFileAlt } from 'react-icons/fa';
 import { createTrade, updateTrade } from '../utils/supabase';
 import { useNavigate } from 'react-router-dom';
 import Modal from './modal';
+import styled from 'styled-components';
 import { getMove } from '../utils/moex';
 
 const Text = styled.p`
