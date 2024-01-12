@@ -33,6 +33,7 @@ const Cell = styled.p<CellProps>`
   padding: 0.4rem 0;
 
   @media (max-width: 500px) {
+    font-size: 2rem;
     &:nth-child(even) {
       justify-self: end;
     }
@@ -45,8 +46,12 @@ const Input = styled.input`
   background-color: var(--color-bg);
   padding: 0 0.5rem;
   outline: none;
+
   @media (max-width: 500px) {
-    width: 70%;
+    width: 40%;
+    text-align: right;
+    font-size: 2.2rem;
+    padding: 1.5rem ;
   }
 `;
 
